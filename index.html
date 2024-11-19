@@ -84,22 +84,7 @@
                 z-index: 1000;
             `;
 
-            // Chat button
-            const chatButton = document.createElement('button');
-            chatButton.innerText = 'Chat';
-            chatButton.style.cssText = `
-                margin: 5px;
-                padding: 5px;
-                background: #28A745;
-                color: white;
-                border: none;
-                border-radius: 3px;
-                cursor: pointer;
-            `;
-            chatButton.onclick = () => {
-                logToConsole('Chat button clicked!');
-                sendTrackingData('chat');
-            };
+            
 
             // Calendly button
             const calendlyButton = document.createElement('button');
@@ -118,26 +103,9 @@
                 sendTrackingData('calendly');
             };
 
-            // Contact button
-            const contactButton = document.createElement('button');
-            contactButton.innerText = 'Contact Us';
-            contactButton.style.cssText = `
-                margin: 5px;
-                padding: 5px;
-                background: #FFC107;
-                color: black;
-                border: none;
-                border-radius: 3px;
-                cursor: pointer;
-            `;
-            contactButton.onclick = () => {
-                logToConsole('Contact Us button clicked!');
-                sendTrackingData('contact');
-            };
+           
 
-            optionsDiv.appendChild(chatButton);
             optionsDiv.appendChild(calendlyButton);
-            optionsDiv.appendChild(contactButton);
             document.body.appendChild(optionsDiv);
         };
 
