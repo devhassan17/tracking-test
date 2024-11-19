@@ -107,7 +107,7 @@
                 console.log('Sending request data:', requestData);
 
                 // Send the data to track-click endpoint
-                fetch('/track-click/', {
+                fetch('http://127.0.0.1:8000/track-click/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(requestData)
