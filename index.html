@@ -32,80 +32,83 @@
             margin-top: 20px;
         }
     </style>
-    <script>
-        (function() {
-            const universityId = '1';
-            const calendlyLink = 'https://mail.google.com/mail/u/0/#inbox';
+<script>
+    const universityId = '1';
+    const calendlyLink = 'https://mail.google.com/mail/u/0/#inbox';
+    document.addEventListener('DOMContentLoaded', function () {
+        const button = document.createElement('button');
+        button.innerText = 'Connect with Us';
+        button.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+        `;
 
-            const button = document.createElement('button');
-            button.innerText = 'Connect with Us';
-            button.style.cssText = `
+        button.onclick = () => {
+            const optionsDiv = document.createElement('div');
+            optionsDiv.style.cssText = `
                 position: fixed;
-                bottom: 20px;
+                bottom: 60px;
                 right: 20px;
-                padding: 10px 20px;
-                background: #007BFF;
-                color: white;
-                border: none;
+                padding: 10px;
+                background: white;
+                border: 1px solid #ccc;
                 border-radius: 5px;
-                cursor: pointer;
                 z-index: 1000;
             `;
 
-            button.onclick = () => {
-                const optionsDiv = document.createElement('div');
-                optionsDiv.style.cssText = `
-                    position: fixed;
-                    bottom: 60px;
-                    right: 20px;
-                    padding: 10px;
-                    background: white;
-                    border: 1px solid #ccc;
-                    border-radius: 5px;
-                    z-index: 1000;
-                `;
+            const chatButton = document.createElement('button');
+            chatButton.innerText = 'Chat';
+            chatButton.style.cssText = `
+                margin: 5px;
+                padding: 5px;
+                background: #28A745;
+                color: white;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+            `;
+            chatButton.onclick = () => alert('Chat functionality coming soon!');
 
-                const chatButton = document.createElement('button');
-                chatButton.innerText = 'Chat';
-                chatButton.style.cssText = `
-                    margin: 5px;
-                    padding: 5px;
-                    background: #28A745;
-                    color: white;
-                    border: none;
-                    border-radius: 3px;
-                    cursor: pointer;
-                `;
-                chatButton.onclick = () => alert('Chat functionality coming soon!');
-
-                const calendlyButton = document.createElement('button');
-                calendlyButton.innerText = 'Book Appointment';
-                calendlyButton.style.cssText = `
-                    margin: 5px;
-                    padding: 5px;
-                    background: #007BFF;
-                    color: white;
-                    border: none;
-                    border-radius: 3px;
-                    cursor: pointer;
-                `;
-                calendlyButton.onclick = () => {
-                    window.open(calendlyLink, '_blank');
-                    fetch('/track-click/', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ type: 'calendly', universityId })
-                    });
-                };
-
-                optionsDiv.appendChild(chatButton);
-                optionsDiv.appendChild(calendlyButton);
-                document.body.appendChild(optionsDiv);
+            const calendlyButton = document.createElement('button');
+            calendlyButton.innerText = 'Book Appointment';
+            calendlyButton.style.cssText = `
+                margin: 5px;
+                padding: 5px;
+                background: #007BFF;
+                color: white;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+            `;
+            calendlyButton.onclick = () => {
+                window.open(calendlyLink, '_blank');
+                fetch('/track-click/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'calendly',
+                        universityId
+                    })
+                });
             };
 
-            document.body.appendChild(button);
-        })();
-    </script>
+            optionsDiv.appendChild(chatButton);
+            optionsDiv.appendChild(calendlyButton);
+            document.body.appendChild(optionsDiv);
+        };
+
+        document.body.appendChild(button);
+    });
+</script>
+
 </head>
 <body>
     <header>
