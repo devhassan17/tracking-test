@@ -33,117 +33,116 @@
         }
     </style>
 <script>
- document.addEventListener('DOMContentLoaded', function () {
-    const universityId = '1';
-    const trackClickUrl = 'http://127.0.0.1:8000/track-click/';
+    document.addEventListener('DOMContentLoaded', function () {
+        const universityId = '1';
+        const trackClickUrl = 'http://127.0.0.1:8000/track-click/';
 
-    const logToConsole = (message) => console.log(message);
+        const logToConsole = (message) => console.log(message);
 
-    const sendTrackingData = (type) => {
-        const data = { type, universityId };
-        logToConsole(`Sending request data: ${JSON.stringify(data)}`);
+        const sendTrackingData = (type) => {
+            const data = { type, universityId };
+            logToConsole(`Sending request data: ${JSON.stringify(data)}`);
 
-        fetch(trackClickUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(result => logToConsole(`Response: ${JSON.stringify(result)}`))
-        .catch(error => logToConsole(`Error sending data: ${error}`));
-    };
-
-    // Create the Connect with Us button
-    const button = document.createElement('button');
-    button.innerText = 'Connect with Us';
-    button.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        padding: 10px 20px;
-        background: #007BFF;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        z-index: 1000;
-    `;
-
-    button.onclick = () => {
-        logToConsole('Connect with Us button clicked!');
-        
-        const optionsDiv = document.createElement('div');
-        optionsDiv.style.cssText = `
-            position: fixed;
-            bottom: 60px;
-            right: 20px;
-            padding: 10px;
-            background: white;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            z-index: 1000;
-        `;
-
-        // Chat button
-        const chatButton = document.createElement('button');
-        chatButton.innerText = 'Chat';
-        chatButton.style.cssText = `
-            margin: 5px;
-            padding: 5px;
-            background: #28A745;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        `;
-        chatButton.onclick = () => {
-            logToConsole('Chat button clicked!');
-            sendTrackingData('chat');
+            fetch(trackClickUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(result => logToConsole(`Response: ${JSON.stringify(result)}`))
+            .catch(error => logToConsole(`Error sending data: ${error}`));
         };
 
-        // Calendly button
-        const calendlyButton = document.createElement('button');
-        calendlyButton.innerText = 'Book Appointment';
-        calendlyButton.style.cssText = `
-            margin: 5px;
-            padding: 5px;
+        // Create the Connect with Us button
+        const button = document.createElement('button');
+        button.innerText = 'Connect with Us';
+        button.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
             background: #007BFF;
             color: white;
             border: none;
-            border-radius: 3px;
+            border-radius: 5px;
             cursor: pointer;
+            z-index: 1000;
         `;
-        calendlyButton.onclick = () => {
-            logToConsole('Calendly button clicked!');
-            sendTrackingData('calendly');
+
+        button.onclick = () => {
+            logToConsole('Connect with Us button clicked!');
+            
+            const optionsDiv = document.createElement('div');
+            optionsDiv.style.cssText = `
+                position: fixed;
+                bottom: 60px;
+                right: 20px;
+                padding: 10px;
+                background: white;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                z-index: 1000;
+            `;
+
+            // Chat button
+            const chatButton = document.createElement('button');
+            chatButton.innerText = 'Chat';
+            chatButton.style.cssText = `
+                margin: 5px;
+                padding: 5px;
+                background: #28A745;
+                color: white;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+            `;
+            chatButton.onclick = () => {
+                logToConsole('Chat button clicked!');
+                sendTrackingData('chat');
+            };
+
+            // Calendly button
+            const calendlyButton = document.createElement('button');
+            calendlyButton.innerText = 'Book Appointment';
+            calendlyButton.style.cssText = `
+                margin: 5px;
+                padding: 5px;
+                background: #007BFF;
+                color: white;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+            `;
+            calendlyButton.onclick = () => {
+                logToConsole('Calendly button clicked!');
+                sendTrackingData('calendly');
+            };
+
+            // Contact button
+            const contactButton = document.createElement('button');
+            contactButton.innerText = 'Contact Us';
+            contactButton.style.cssText = `
+                margin: 5px;
+                padding: 5px;
+                background: #FFC107;
+                color: black;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+            `;
+            contactButton.onclick = () => {
+                logToConsole('Contact Us button clicked!');
+                sendTrackingData('contact');
+            };
+
+            optionsDiv.appendChild(chatButton);
+            optionsDiv.appendChild(calendlyButton);
+            optionsDiv.appendChild(contactButton);
+            document.body.appendChild(optionsDiv);
         };
 
-        // Contact button
-        const contactButton = document.createElement('button');
-        contactButton.innerText = 'Contact Us';
-        contactButton.style.cssText = `
-            margin: 5px;
-            padding: 5px;
-            background: #FFC107;
-            color: black;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        `;
-        contactButton.onclick = () => {
-            logToConsole('Contact Us button clicked!');
-            sendTrackingData('contact');
-        };
-
-        optionsDiv.appendChild(chatButton);
-        optionsDiv.appendChild(calendlyButton);
-        optionsDiv.appendChild(contactButton);
-        document.body.appendChild(optionsDiv);
-    };
-
-    document.body.appendChild(button);
-});
-
+        document.body.appendChild(button);
+    });
 </script>
 
 
