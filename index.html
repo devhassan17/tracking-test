@@ -53,17 +53,20 @@
         const universityId = '1';
         const trackClickUrl = 'http://127.0.0.1:8000/track-click/';
 
-        // Function to send tracking data to the server
+        const logToConsole = (message) => console.log(message);
+
         const sendTrackingData = (type) => {
             const data = { type, universityId };
-            fetch(track_click_url, {
+            logToConsole(`Sending request data: ${JSON.stringify(data)}`);
+
+            fetch(trackClickUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             })
             .then(response => response.json())
-            .then(result => console.log(`Response: ${JSON.stringify(result)}`))
-            .catch(error => console.error(`Error sending data: ${error}`));
+            .then(result => logToConsole(`Response: ${JSON.stringify(result)}`))
+            .catch(error => logToConsole(`Error sending data: ${error}`));
         };
 
         // Create the Chat to our Students button
@@ -88,7 +91,7 @@
         panel.style.cssText = `
             position: fixed;
             top: 50%;
-            left: -300px;
+            left: -300px; /* Start hidden */
             transform: translateY(-50%);
             width: 300px;
             background: white;
@@ -122,13 +125,11 @@
         // Yes button functionality
         panel.querySelector('#yesButton').onclick = () => {
             window.open('https://calendly.com/example', '_blank');
-            sendTrackingData('yes');
-            togglePanel(false);
+            sendTrackingData('calendly');
         };
 
         // No button functionality
         panel.querySelector('#noButton').onclick = () => {
-            sendTrackingData('no');
             togglePanel(false);
         };
 
@@ -136,7 +137,7 @@
         document.body.appendChild(button);
     });
     </script>
-       
+     
 </head>
 <body>
     <header>
