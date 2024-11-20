@@ -121,13 +121,13 @@
         button.onclick = () => {
             panel.style.display = 'block'; // Make panel visible
             togglePanel(true); // Slide panel in
-            sendTrackingData('chat');
+            sendTrackingData('chat'); // Track chat button click
         };
 
         // Yes button functionality
         panel.querySelector('#yesButton').onclick = () => {
             window.open('https://calendly.com/example', '_blank');
-            sendTrackingData('calendly');
+            sendTrackingData('calendly'); // Track Calendly button click
         };
 
         // No button functionality
@@ -136,6 +136,7 @@
             setTimeout(() => {
                 panel.style.display = 'none'; // Hide panel completely after sliding out
             }, 300); // Wait for the transition to complete
+            sendTrackingData('no'); // Track No button click
         };
 
         // Append button to body
