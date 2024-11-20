@@ -50,93 +50,84 @@
 //447361901027
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const universityId = '1';
-        const trackClickUrl = 'http://127.0.0.1:8000/track-click/';
-
-        const logToConsole = (message) => console.log(message);
-
-        const sendTrackingData = (type) => {
-            const data = { type, universityId };
-            logToConsole(`Sending request data: ${JSON.stringify(data)}`);
-
-            fetch(trackClickUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-            })
-            .then(response => response.json())
-            .then(result => logToConsole(`Response: ${JSON.stringify(result)}`))
-            .catch(error => logToConsole(`Error sending data: ${error}`));
-        };
-
+        const universityId = 'YOUR_UNIVERSITY_ID'; // Replace with your ID
+        const trackClickUrl = 'YOUR_TRACK_CLICK_URL'; // Replace with your URL
+        const calendlyUrl = 'https://calendly.com/example'; // Replace with your Calendly URL
+    
         // Create the Chat to our Students button
         const button = document.createElement('button');
         button.innerText = 'Chat to our Students';
         button.style.cssText = `
             position: fixed;
             top: 50%;
-            left: 0;
+            right: 0;
             transform: translateY(-50%);
             padding: 10px 20px;
             background: #007BFF;
             color: white;
             border: none;
-            border-radius: 0 5px 5px 0;
+            border-radius: 5px 0 0 5px;
             cursor: pointer;
             z-index: 1000;
         `;
-
-        // Panel container
+    
+        // Panel container (initially hidden)
         const panel = document.createElement('div');
         panel.style.cssText = `
             position: fixed;
             top: 50%;
-            left: -300px; /* Start hidden */
+            right: -300px; /* Completely hidden initially */
             transform: translateY(-50%);
             width: 300px;
             background: white;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 5px 0 0 5px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: left 0.3s ease;
+            transition: right 0.3s ease;
             z-index: 1001;
+            display: none; /* Ensure it's not visible until toggled */
         `;
         panel.innerHTML = `
             <p>Would you like to book an appointment with one of our current students or alumni?</p>
             <button id="yesButton" style="margin-right: 10px; padding: 5px 10px; background: #007BFF; color: white; border: none; border-radius: 3px; cursor: pointer;">Yes</button>
             <button id="noButton" style="padding: 5px 10px; background: #FF0000; color: white; border: none; border-radius: 3px; cursor: pointer;">No</button>
         `;
-
+    
         // Append panel to body
         document.body.appendChild(panel);
-
-        // Slide-in animation for panel
-        const togglePanel = (show) => {
-            panel.style.right = show ? '0' : '-400px';
+    
+        // Function to toggle the panel
+        const togglePanel = () => {
+            if (panel.style.display === 'none') {
+                panel.style.display = 'block';
+                setTimeout(() => { panel.style.right = '0'; }, 10); // Slide in
+            } else {
+                panel.style.right = '-300px'; // Slide out
+                setTimeout(() => { panel.style.display = 'none'; }, 300); // Hide after slide-out animation
+            }
         };
-
+    
         // Button click to show panel
         button.onclick = () => {
-            togglePanel(true);
-            sendTrackingData('chat');
+            togglePanel();
         };
-
+    
         // Yes button functionality
         panel.querySelector('#yesButton').onclick = () => {
-            window.open('https://calendly.com/example', '_blank');
-            sendTrackingData('calendly');
+            window.open(calendlyUrl, '_blank');
+            togglePanel();
         };
-
+    
         // No button functionality
         panel.querySelector('#noButton').onclick = () => {
-            togglePanel(false);
+            togglePanel();
         };
-
+    
         // Append button to body
         document.body.appendChild(button);
     });
     </script>
+    
       
 </head>
 <body>
