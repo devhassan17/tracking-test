@@ -54,6 +54,28 @@
             .catch(error => logToConsole(`Error sending data: ${error}`));
         };
 
+        const getLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    // Extract latitude and longitude
+                    const locationData = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    };
+                    sendTrackingData('location', locationData);
+                },
+                (error) => {
+                    logToConsole("Error getting location: " + error.message);
+                    sendTrackingData('location_error'); // Send an error state
+                }
+            );
+        } else {
+            logToConsole("Geolocation is not supported by this browser.");
+            sendTrackingData('location_error'); // Send an error state
+        }
+    };
+
         // Create the Chat to our Students button
         const button = document.createElement('button');
         button.innerText = 'Chat to our Students';
@@ -107,6 +129,7 @@
             panel.style.display = 'block';
             togglePanel(true);
             sendTrackingData('chat');
+            getLocation(); 
         };
 
         // Yes button functionality
