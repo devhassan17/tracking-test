@@ -85,8 +85,9 @@
             z-index: 1000;
         `;
 
-        button.onclick = () => {
-            logToConsole('Chat to our Students button clicked!');
+         button.onclick = () => {
+        logToConsole('Chat to our Students button clicked!');
+        sendTrackingData('chat');
             
             const optionsDiv = document.createElement('div');
             optionsDiv.style.cssText = `
@@ -126,7 +127,6 @@
     });
     </script>
     
-
 </head>
 <body>
     <header>
