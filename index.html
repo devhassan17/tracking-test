@@ -50,85 +50,93 @@
 //447361901027
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const universityId = 'YOUR_UNIVERSITY_ID'; // Replace with your ID
-        const trackClickUrl = 'YOUR_TRACK_CLICK_URL'; // Replace with your URL
-        const calendlyUrl = 'https://calendly.com/example'; // Replace with your Calendly URL
-    
+        const universityId = '1';
+        const trackClickUrl = 'http://127.0.0.1:8000/track-click/';
+
+        // Function to send tracking data to the server
+        const sendTrackingData = (type) => {
+            const data = { type, universityId };
+            fetch(track_click_url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(result => console.log(`Response: ${JSON.stringify(result)}`))
+            .catch(error => console.error(`Error sending data: ${error}`));
+        };
+
         // Create the Chat to our Students button
         const button = document.createElement('button');
         button.innerText = 'Chat to our Students';
         button.style.cssText = `
             position: fixed;
             top: 50%;
-            right: 0;
+            left: 0;
             transform: translateY(-50%);
             padding: 10px 20px;
             background: #007BFF;
             color: white;
             border: none;
-            border-radius: 5px 0 0 5px;
+            border-radius: 0 5px 5px 0;
             cursor: pointer;
             z-index: 1000;
         `;
-    
-        // Panel container (initially hidden)
+
+        // Panel container
         const panel = document.createElement('div');
         panel.style.cssText = `
             position: fixed;
             top: 50%;
-            right: -300px; /* Completely hidden initially */
+            left: -300px;
             transform: translateY(-50%);
             width: 300px;
             background: white;
-            border-radius: 5px 0 0 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: right 0.3s ease;
+            transition: left 0.3s ease;
             z-index: 1001;
-            display: none; /* Ensure it's not visible until toggled */
         `;
         panel.innerHTML = `
             <p>Would you like to book an appointment with one of our current students or alumni?</p>
             <button id="yesButton" style="margin-right: 10px; padding: 5px 10px; background: #007BFF; color: white; border: none; border-radius: 3px; cursor: pointer;">Yes</button>
             <button id="noButton" style="padding: 5px 10px; background: #FF0000; color: white; border: none; border-radius: 3px; cursor: pointer;">No</button>
         `;
-    
+
         // Append panel to body
         document.body.appendChild(panel);
-    
-        // Function to toggle the panel
-        const togglePanel = () => {
-            if (panel.style.display === 'none') {
-                panel.style.display = 'block';
-                setTimeout(() => { panel.style.right = '0'; }, 10); // Slide in
-            } else {
-                panel.style.right = '-300px'; // Slide out
-                setTimeout(() => { panel.style.display = 'none'; }, 300); // Hide after slide-out animation
-            }
+
+        // Slide-in animation for panel
+        const togglePanel = (show) => {
+            panel.style.left = show ? '0' : '-300px';
         };
-    
+
         // Button click to show panel
         button.onclick = () => {
-            togglePanel();
+            togglePanel(true);
+            sendTrackingData('chat');
         };
-    
+
         // Yes button functionality
         panel.querySelector('#yesButton').onclick = () => {
-            window.open(calendlyUrl, '_blank');
-            togglePanel();
+            window.open('https://calendly.com/example', '_blank');
+            sendTrackingData('yes');
+            togglePanel(false);
         };
-    
+
         // No button functionality
         panel.querySelector('#noButton').onclick = () => {
-            togglePanel();
+            sendTrackingData('no');
+            togglePanel(false);
         };
-    
+
         // Append button to body
         document.body.appendChild(button);
     });
     </script>
-    
-      
+       
 </head>
 <body>
     <header>
