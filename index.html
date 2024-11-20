@@ -91,7 +91,7 @@
         panel.style.cssText = `
             position: fixed;
             top: 50%;
-            right: -310px; /* Start hidden on the right */
+            right: -310px;
             transform: translateY(-50%);
             width: 300px;
             background: white;
@@ -101,7 +101,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: right 0.3s ease;
             z-index: 1001;
-            display: none; /* Hidden by default */
+            display: none;
         `;
         panel.innerHTML = `
             <p>Would you like to book an appointment with one of our current students or alumni?</p>
@@ -119,31 +119,31 @@
 
         // Button click to show panel
         button.onclick = () => {
-            panel.style.display = 'block'; // Make panel visible
-            togglePanel(true); // Slide panel in
-            sendTrackingData('chat'); // Track chat button click
+            panel.style.display = 'block';
+            togglePanel(true);
+            sendTrackingData('chat');
         };
 
         // Yes button functionality
         panel.querySelector('#yesButton').onclick = () => {
             window.open('https://calendly.com/example', '_blank');
-            sendTrackingData('calendly'); // Track Calendly button click
+            sendTrackingData('calendly');
         };
 
         // No button functionality
         panel.querySelector('#noButton').onclick = () => {
             togglePanel(false);
             setTimeout(() => {
-                panel.style.display = 'none'; // Hide panel completely after sliding out
-            }, 300); // Wait for the transition to complete
-            sendTrackingData('no'); // Track No button click
+                panel.style.display = 'none';
+            }, 300);
+            sendTrackingData('no');
         };
 
         // Append button to body
         document.body.appendChild(button);
     });
 </script>
-
+    
 </head>
 <body>
     <header>
