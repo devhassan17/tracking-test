@@ -4,17 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Website</title>
-    <!-- Hotjar Tracking Code for Site 5214939 (name missing) -->
-<script>
-    (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:5214939,hjsv:6};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-</script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -43,25 +33,9 @@
             margin-top: 20px;
         }
     </style>
-    //Would you like to book an appointment with one of our current students or alumni?
-    https://www.intfoundationgroup.co.uk/
-// Kal Makwana
-// 19:33
-// Would you like to book an appointment with one of our current students or alumni?
-// Yes/No
-// Kal Makwana
-// 19:37
-// https://calendly.com/tagmeeting/intro
-// Kal Makwana
-// 19:41
-// Name of your Institution*
-// First Name Last Name*
-// E-mail*
-// Address
-//447361901027
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const universityId = '1';
+        const universityId = '3';
         const trackClickUrl = 'http://127.0.0.1:8000/track-click/';
 
         const logToConsole = (message) => console.log(message);
@@ -116,9 +90,8 @@
         `;
         panel.innerHTML = `
             <p>Would you like to book an appointment with one of our current students or alumni?</p>
-            <button id="yesButton" style="margin-right: 10px; padding: 5px 10px;  color: black; border: none; border-radius: 3px; cursor: pointer;">Yes</button>
-            <button id="noButton" style="padding: 5px 10px;  color: black; border: none; border-radius: 3px; cursor: pointer;">No</button>
-            <a  style="text-decoration:none; color:black" href="https://www.applypal.io/">Powered by Applypal</a>
+            <button id="yesButton" style="margin-right: 10px; padding: 5px 10px; background: #007BFF; color: white; border: none; border-radius: 3px; cursor: pointer;">Yes</button>
+            <button id="noButton" style="padding: 5px 10px; background: #FF0000; color: white; border: none; border-radius: 3px; cursor: pointer;">No</button>
         `;
 
         // Append panel to body
@@ -155,6 +128,7 @@
         document.body.appendChild(button);
     });
 </script>
+    
     
     
 </head>
