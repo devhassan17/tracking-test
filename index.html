@@ -54,22 +54,26 @@
             .catch(error => logToConsole(`Error sending data: ${error}`));
         };
 
-        const getIpLocation = () => {
-        fetch('https://ipinfo.io/json?token=your_api_token')  // You can get an API token from ipinfo.io
-            .then(response => response.json())
-            .then(data => {
-                const locationData = {
-                    city: data.city,
-                    region: data.region,
-                    country: data.country,
-                    ip: data.ip,
-                };
-                sendTrackingData('ip_location', locationData);
-            })
-            .catch(error => {
-                logToConsole("Error getting IP location: " + error.message);
-                sendTrackingData('location_error');
-            });
+        const getLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    // Extract latitude and longitude
+                    const locationData = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    };
+                    sendTrackingData('location', locationData);
+                },
+                (error) => {
+                    logToConsole("Error getting location: " + error.message);
+                    sendTrackingData('location_error'); // Send an error state
+                }
+            );
+        } else {
+            logToConsole("Geolocation is not supported by this browser.");
+            sendTrackingData('location_error'); // Send an error state
+        }
     };
 
         // Create the Chat to our Students button
@@ -125,7 +129,7 @@
             panel.style.display = 'block';
             togglePanel(true);
             sendTrackingData('chat');
-            getIpLocation();
+            getLocation(); 
         };
 
         // Yes button functionality
