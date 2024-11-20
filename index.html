@@ -75,7 +75,7 @@
         button.style.cssText = `
             position: fixed;
             top: 50%;
-            left: 0;
+            right: 0;
             transform: translateY(-50%);
             padding: 10px 20px;
             background: #007BFF;
@@ -91,7 +91,7 @@
         panel.style.cssText = `
             position: fixed;
             top: 50%;
-            left: -400px; /* Start hidden */
+            right: -310px; /* Start hidden on the right */
             transform: translateY(-50%);
             width: 300px;
             background: white;
@@ -99,8 +99,9 @@
             border-radius: 5px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: left 0.3s ease;
+            transition: right 0.3s ease;
             z-index: 1001;
+            display: none; /* Hidden by default */
         `;
         panel.innerHTML = `
             <p>Would you like to book an appointment with one of our current students or alumni?</p>
@@ -113,12 +114,13 @@
 
         // Slide-in animation for panel
         const togglePanel = (show) => {
-            panel.style.left = show ? '0' : '-300px';
+            panel.style.right = show ? '0' : '-310px';
         };
 
         // Button click to show panel
         button.onclick = () => {
-            togglePanel(true);
+            panel.style.display = 'block'; // Make panel visible
+            togglePanel(true); // Slide panel in
             sendTrackingData('chat');
         };
 
@@ -131,13 +133,16 @@
         // No button functionality
         panel.querySelector('#noButton').onclick = () => {
             togglePanel(false);
+            setTimeout(() => {
+                panel.style.display = 'none'; // Hide panel completely after sliding out
+            }, 300); // Wait for the transition to complete
         };
 
         // Append button to body
         document.body.appendChild(button);
     });
-    </script>
-     
+</script>
+
 </head>
 <body>
     <header>
