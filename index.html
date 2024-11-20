@@ -50,22 +50,26 @@
 //447361901027
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const universityId = '1';
         const trackClickUrl = 'http://127.0.0.1:8000/track-click/';
+
         const logToConsole = (message) => console.log(message);
-        
+
         const sendTrackingData = (type) => {
-            const data = { type, universityId: 1 };
+            const data = { type, universityId };
+            logToConsole(`Sending request data: ${JSON.stringify(data)}`);
+
             fetch(trackClickUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             })
             .then(response => response.json())
-            .then(result => logToConsole(result))
-            .catch(error => logToConsole(error));
+            .then(result => logToConsole(`Response: ${JSON.stringify(result)}`))
+            .catch(error => logToConsole(`Error sending data: ${error}`));
         };
-        
-        // Create and style the "Chat to our Students" button
+
+        // Create the Chat to our Students button
         const button = document.createElement('button');
         button.innerText = 'Chat to our Students';
         button.style.cssText = `
@@ -81,13 +85,13 @@
             cursor: pointer;
             z-index: 1000;
         `;
-        
-        // Create and style the panel
+
+        // Panel container
         const panel = document.createElement('div');
         panel.style.cssText = `
             position: fixed;
             top: 50%;
-            right: -310px;
+            right: -310px; /* Start hidden on the right */
             transform: translateY(-50%);
             width: 300px;
             background: white;
@@ -97,43 +101,48 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: right 0.3s ease;
             z-index: 1001;
-            display: none;
+            display: none; /* Hidden by default */
         `;
         panel.innerHTML = `
             <p>Would you like to book an appointment with one of our current students or alumni?</p>
             <button id="yesButton" style="margin-right: 10px; padding: 5px 10px; background: #007BFF; color: white; border: none; border-radius: 3px; cursor: pointer;">Yes</button>
             <button id="noButton" style="padding: 5px 10px; background: #FF0000; color: white; border: none; border-radius: 3px; cursor: pointer;">No</button>
         `;
-        
-        // Append the button and panel to the body
-        document.body.appendChild(button);
+
+        // Append panel to body
         document.body.appendChild(panel);
-        
+
+        // Slide-in animation for panel
         const togglePanel = (show) => {
             panel.style.right = show ? '0' : '-310px';
         };
-        
+
+        // Button click to show panel
         button.onclick = () => {
-            panel.style.display = 'block'; 
-            togglePanel(true); 
-            sendTrackingData('chat');
+            panel.style.display = 'block'; // Make panel visible
+            togglePanel(true); // Slide panel in
+            sendTrackingData('chat'); // Track chat button click
         };
-        
+
+        // Yes button functionality
         panel.querySelector('#yesButton').onclick = () => {
             window.open('https://calendly.com/example', '_blank');
-            sendTrackingData('calendly');
+            sendTrackingData('calendly'); // Track Calendly button click
         };
-        
+
+        // No button functionality
         panel.querySelector('#noButton').onclick = () => {
             togglePanel(false);
             setTimeout(() => {
-                panel.style.display = 'none';
-            }, 300); // Hide the panel after sliding out
-            sendTrackingData('no');
+                panel.style.display = 'none'; // Hide panel completely after sliding out
+            }, 300); // Wait for the transition to complete
+            sendTrackingData('no'); // Track No button click
         };
+
+        // Append button to body
+        document.body.appendChild(button);
     });
 </script>
-    
 
 </head>
 <body>
