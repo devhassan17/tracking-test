@@ -127,16 +127,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     
-     fetch('https://worldtimeapi.org/api/timezone/' + timezone)
+    fetch('https://worldtimeapi.org/api/timezone/' + timezone)
   .then(response => {
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
     return response.json();
   })
-  .then(data => console.log(data))
+  .then(data => {
+    // Process the data
+    console.log(data);
+  })
   .catch(error => {
-    console.error('Error fetching time zone data:', error);
+    console.error('Error fetching data:', error);
+    // Handle the error appropriately, e.g., display an error message to the user
   });
     // Send tracking data
     const universityId = '6';
