@@ -33,204 +33,118 @@
             margin-top: 20px;
         }
     </style>
-    <script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Get the user's timezone
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-    // Map timezone to country
-    const timezoneToCountry = {
-    // United States
-    "America/New_York": "United States",
-    "America/Chicago": "United States",
-    "America/Los_Angeles": "United States",
-    "America/Denver": "United States",
-    "America/Indianapolis": "United States",
-    "America/Phoenix": "United States",
-    "America/Anchorage": "United States",
-    "America/Honolulu": "United States",
-
-    // Canada
-    "America/Toronto": "Canada",
-    "America/Vancouver": "Canada",
-    "America/Edmonton": "Canada",
-    "America/Calgary": "Canada",
-
-    // Europe
-    "Europe/London": "United Kingdom",
-    "Europe/Paris": "France",
-    "Europe/Berlin": "Germany",
-    "Europe/Amsterdam": "Netherlands",
-    "Europe/Madrid": "Spain",
-    "Europe/Brussels": "Belgium",
-    "Europe/Zurich": "Switzerland",
-    "Europe/Moscow": "Russia",
-    "Europe/Stockholm": "Sweden",
-
-    // Asia
-    "Asia/Kolkata": "India",
-    "Asia/Tokyo": "Japan",
-    "Asia/Shanghai": "China",
-    "Asia/Seoul": "South Korea",
-    "Asia/Karachi": "Pakistan",
-    "Asia/Dubai": "United Arab Emirates",
-    "Asia/Singapore": "Singapore",
-    "Asia/Manila": "Philippines",
-    "Asia/Bangkok": "Thailand",
-    "Asia/Jakarta": "Indonesia",
-    "Asia/Kuala_Lumpur": "Malaysia",
-
-    // Australia and Oceania
-    "Australia/Sydney": "Australia",
-    "Australia/Melbourne": "Australia",
-    "Australia/Brisbane": "Australia",
-    "Pacific/Auckland": "New Zealand",
-    "Pacific/Fiji": "Fiji",
-    "Pacific/Tongatapu": "Tonga",
-
-    // Africa
-    "Africa/Johannesburg": "South Africa",
-    "Africa/Nairobi": "Kenya",
-    "Africa/Lagos": "Nigeria",
-    "Africa/Cairo": "Egypt",
-    "Africa/Algiers": "Algeria",
-    "Africa/Abidjan": "Ivory Coast",
-
-    // South America
-    "America/Sao_Paulo": "Brazil",
-    "America/Argentina/Buenos_Aires": "Argentina",
-    "America/Lima": "Peru",
-    "America/Bogota": "Colombia",
-    "America/Caracas": "Venezuela",
-    "America/Montevideo": "Uruguay",
-
-    // Middle East
-    "Asia/Istanbul": "Turkey",
-    "Asia/Baghdad": "Iraq",
-    "Asia/Tehran": "Iran",
-    "Africa/Cairo": "Egypt",
-    "Asia/Damascus": "Syria",
-
-    // Other regions
-    "Pacific/Honolulu": "Hawaii (USA)",
-    "America/Argentina/Salta": "Argentina",
-    "Pacific/Port_Moresby": "Papua New Guinea",
-    "America/Mexico_City": "Mexico",
-    "America/Guatemala": "Guatemala",
-    "America/Montevideo": "Uruguay"
-};
-
-
-    // Get the country based on the timezone
-    const userCountry = timezoneToCountry[timezone] || 'Unknown Country';
-    console.log('User Country based on Timezone:', userCountry);
-
-
+ <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Fetch IP info from ipinfo.io
+        fetch('https://ipinfo.io/json?token=4b143e6e51301d')
+            .then(response => response.json())
+            .then(data => {
+                console.log('IP Info:', data);
     
-    fetch('https://ipinfo.io/json?token=4b143e6e51301d')
-  .then(response => response.json())
-  .then(data => {
-    console.log(data); // Logs the country and other info related to the IP address
-  })
-  .catch(error => console.error('Error fetching data:', error));
-
-    // Send tracking data
-    const universityId = '6';
-    const trackClickUrl = 'http://127.0.0.1:8000/track-click/';
-
-    const logToConsole = (message) => console.log(message);
-
-    const sendTrackingData = (type) => {
-        const data = { type, universityId, userCountry };  // Include country in tracking data
-        logToConsole(`Sending request data: ${JSON.stringify(data)}`);
-
-        fetch(trackClickUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(result => logToConsole(`Response: ${JSON.stringify(result)}`))
-        .catch(error => logToConsole(`Error sending data: ${error}`));
-    };
-
-    // Create the "Chat to our Students" button
-    const button = document.createElement('button');
-    button.innerText = 'Chat to our Students';
-    button.style.cssText = `
-        position: fixed;
-        top: 50%;
-        right: 18px; 
-        transform: translateY(-50%) rotate(-90deg);
-        transform-origin: right center;
-        padding: 10px 20px;
-        background: #007BFF;
-        color: white;
-        border: none;
-        border-radius: 0 5px 5px 0;
-        cursor: pointer;
-        z-index: 1000;
-    `;
-
-    // Panel container
-    const panel = document.createElement('div');
-    panel.style.cssText = `
-        position: fixed;
-        top: 50%;
-        right: -310px;
-        transform: translateY(-50%);
-        width: 300px;
-        background: white;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: right 0.3s ease;
-        z-index: 1001;
-        display: none;
-    `;
-    panel.innerHTML = `
-        <p>Would you like to book an appointment with one of our current students or alumni?</p>
-        <button id="yesButton" style="margin-right: 10px; padding: 5px 10px; background: #007BFF; color: white; border: none; border-radius: 3px; cursor: pointer;">Yes</button>
-        <button id="noButton" style="padding: 5px 10px; background: #FF0000; color: white; border: none; border-radius: 3px; cursor: pointer;">No</button>
-    `;
-
-    // Append panel to body
-    document.body.appendChild(panel);
-
-    // Slide-in animation for panel
-    const togglePanel = (show) => {
-        panel.style.right = show ? '0' : '-310px';
-    };
-
-    // Button click to show panel
-    button.onclick = () => {
-        panel.style.display = 'block';
-        togglePanel(true);
-        sendTrackingData('chat');
-    };
-
-    // Yes button functionality
-    panel.querySelector('#yesButton').onclick = () => {
-        window.open('https://calendly.com/example', '_blank');
-        sendTrackingData('calendly');
-    };
-
-    // No button functionality
-    panel.querySelector('#noButton').onclick = () => {
-        togglePanel(false);
-        setTimeout(() => {
-            panel.style.display = 'none';
-        }, 300);
-        sendTrackingData('no');
-    };
-
-    // Append button to body
-    document.body.appendChild(button);
-});
-
-        
-</script>
+                // Extract IP and country
+                const ip = data.ip;
+                const country = data.country;
+    
+                // Tracking variables
+                const universityId = '6';
+                const trackClickUrl = 'http://127.0.0.1:8000/track-click/';
+    
+                // Utility function to log messages to the console
+                const logToConsole = (message) => console.log(message);
+    
+                // Function to send tracking data
+                const sendTrackingData = (type) => {
+                    const trackingData = { type, universityId, ip, country }; // Include IP and country
+                    logToConsole(`Sending tracking data: ${JSON.stringify(trackingData)}`);
+    
+                    fetch(trackClickUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(trackingData),
+                    })
+                        .then(response => response.json())
+                        .then(result => logToConsole(`Response: ${JSON.stringify(result)}`))
+                        .catch(error => logToConsole(`Error sending tracking data: ${error}`));
+                };
+    
+                // Create the "Chat to our Students" button
+                const chatButton = document.createElement('button');
+                chatButton.innerText = 'Chat to our Students';
+                chatButton.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    right: 18px; 
+                    transform: translateY(-50%) rotate(-90deg);
+                    transform-origin: right center;
+                    padding: 10px 20px;
+                    background: #007BFF;
+                    color: white;
+                    border: none;
+                    border-radius: 0 5px 5px 0;
+                    cursor: pointer;
+                    z-index: 1000;
+                `;
+    
+                // Create the sliding panel
+                const panel = document.createElement('div');
+                panel.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    right: -310px;
+                    transform: translateY(-50%);
+                    width: 300px;
+                    background: white;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    padding: 20px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    transition: right 0.3s ease;
+                    z-index: 1001;
+                    display: none;
+                `;
+                panel.innerHTML = `
+                    <p>Would you like to book an appointment with one of our current students or alumni?</p>
+                    <button id="yesButton" style="margin-right: 10px; padding: 5px 10px; background: #007BFF; color: white; border: none; border-radius: 3px; cursor: pointer;">Yes</button>
+                    <button id="noButton" style="padding: 5px 10px; background: #FF0000; color: white; border: none; border-radius: 3px; cursor: pointer;">No</button>
+                `;
+    
+                // Append panel to body
+                document.body.appendChild(panel);
+    
+                // Function to toggle the panel
+                const togglePanel = (show) => {
+                    panel.style.right = show ? '0' : '-310px';
+                };
+    
+                // Button click to show the panel
+                chatButton.onclick = () => {
+                    panel.style.display = 'block';
+                    togglePanel(true);
+                    sendTrackingData('chat');
+                };
+    
+                // Yes button click functionality
+                panel.querySelector('#yesButton').onclick = () => {
+                    window.open('https://calendly.com/example', '_blank');
+                    sendTrackingData('calendly');
+                };
+    
+                // No button click functionality
+                panel.querySelector('#noButton').onclick = () => {
+                    togglePanel(false);
+                    setTimeout(() => {
+                        panel.style.display = 'none';
+                    }, 300);
+                    sendTrackingData('no');
+                };
+    
+                // Append button to body
+                document.body.appendChild(chatButton);
+            })
+            .catch(error => console.error('Error fetching IP info:', error));
+    });
+    </script>
+    
     
 </head>
 <body>
