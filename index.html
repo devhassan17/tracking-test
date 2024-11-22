@@ -33,6 +33,9 @@
             margin-top: 20px;
         }
     </style>
+<script src="<head>
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LezZIcqAAAAAP4DsXYNygSYoMZhznPM_EzZn-F1" async defer></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Fetch IP info from ipinfo.io
@@ -40,7 +43,7 @@
             .then(response => response.json())
             .then(data => {
                 console.log('IP Info:', data);
-    
+
                 const ip = data.ip;
                 const country = data.country;
 
@@ -52,8 +55,8 @@
                 const logToConsole = (message) => console.log(message);
 
                 // Function to send tracking data
-                const sendTrackingData = (type) => {
-                    const trackingData = { type, universityId, ip, country }; // Include IP and country
+                const sendTrackingData = (type, token) => {
+                    const trackingData = { type, universityId, ip, country, recaptchaToken: token }; // Include IP, country, and reCAPTCHA token
                     logToConsole(`Sending tracking data: ${JSON.stringify(trackingData)}`);
 
                     fetch(trackClickUrl, {
@@ -84,7 +87,6 @@
                     z-index: 1000;
                 `;
 
-
                 // Create the sliding panel
                 const panel = document.createElement('div');
                 panel.style.cssText = `
@@ -104,11 +106,13 @@
                 `;
                 panel.innerHTML = `
                     <p>Would you like to book an appointment with one of our current students or alumni?</p>
-                    <button id="yesButton" style="margin-right: 10px; padding: 5px 10px;  color: black; border: none; border-radius: 3px; cursor: pointer;">Yes</button>
-                    <button id="noButton" style="padding: 5px 10px;  color: black; border: none; border-radius: 3px; cursor: pointer;">No</button>
+                    <button id="yesButton" style="margin-right: 10px; padding: 5px 10px; color: black; border: none; border-radius: 3px; cursor: pointer;">Yes</button>
+                    <button id="noButton" style="padding: 5px 10px; color: black; border: none; border-radius: 3px; cursor: pointer;">No</button>
                     <div style="text-align: center; margin-top: 20px; font-size: 12px;">
                     <a href="https://www.applypal.io/" target="_blank" style="text-decoration: none; color: #131e42;">Powered by TAG</a>
-                </div>
+                    </div>
+                    <!-- reCAPTCHA Widget -->
+                    <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
                 `;
 
                 // Append panel to body
@@ -123,13 +127,17 @@
                 chatButton.onclick = () => {
                     panel.style.display = 'block';
                     togglePanel(true);
-                    sendTrackingData('chat');
                 };
 
                 // Yes button click functionality
                 panel.querySelector('#yesButton').onclick = () => {
-                    window.open('https://calendly.com/example', '_blank');
-                    sendTrackingData('calendly');
+                    const recaptchaToken = grecaptcha.getResponse();  // Get the reCAPTCHA token
+                    if (recaptchaToken) {
+                        sendTrackingData('calendly', recaptchaToken);  // Send tracking data only if reCAPTCHA is successful
+                        window.open('https://calendly.com/example', '_blank');
+                    } else {
+                        alert("Please verify you are not a robot.");
+                    }
                 };
 
                 // No button click functionality
@@ -138,7 +146,7 @@
                     setTimeout(() => {
                         panel.style.display = 'none';
                     }, 300);
-                    sendTrackingData('no');
+                    sendTrackingData('no', null);  // No reCAPTCHA token needed for "No"
                 };
 
                 // Append button to body
@@ -147,6 +155,7 @@
             .catch(error => console.error('Error fetching IP info:', error));
     });
 </script>
+
     
     
 </head>
