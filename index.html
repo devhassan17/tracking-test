@@ -33,7 +33,7 @@
             margin-top: 20px;
         }
     </style>
-<script>
+ <script>
     document.addEventListener('DOMContentLoaded', function () {
         const universityId = '6';
         const trackClickUrl = 'http://127.0.0.1:8000/track-click/';
@@ -42,14 +42,13 @@
         
         
         // Fetch IP information from ipinfo.io
-        let userIP = null;
-        let userCountry = null;
+
         fetch('https://ipinfo.io/json?token=4b143e6e51301d')
             .then(response => response.json())
             .then(data => {
                 logToConsole('IP Info:', data);
-                userIP = data.ip;
-                userCountry = data.country;
+               let userIP = data.ip;
+               let userCountry = data.country;
             })
             .catch(error => logToConsole(`Error fetching IP info: ${error}`));
 
