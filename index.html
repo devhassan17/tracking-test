@@ -33,7 +33,7 @@
             margin-top: 20px;
         }
     </style>
- <script>
+<script>
     document.addEventListener('DOMContentLoaded', function () {
         // Fetch IP info from ipinfo.io
         fetch('https://ipinfo.io/json?token=4b143e6e51301d')
@@ -41,22 +41,21 @@
             .then(data => {
                 console.log('IP Info:', data);
     
-            
                 const ip = data.ip;
                 const country = data.country;
-    
+
                 // Tracking variables
                 const universityId = '6';
                 const trackClickUrl = 'http://127.0.0.1:8000/track-click/';
-    
+
                 // Utility function to log messages to the console
                 const logToConsole = (message) => console.log(message);
-    
+
                 // Function to send tracking data
                 const sendTrackingData = (type) => {
                     const trackingData = { type, universityId, ip, country }; // Include IP and country
                     logToConsole(`Sending tracking data: ${JSON.stringify(trackingData)}`);
-    
+
                     fetch(trackClickUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -66,10 +65,10 @@
                         .then(result => logToConsole(`Response: ${JSON.stringify(result)}`))
                         .catch(error => logToConsole(`Error sending tracking data: ${error}`));
                 };
-    
+
                 // Create the "Chat to our Students" button
                 const chatButton = document.createElement('button');
-                chatButton.innerText = 'Chat to our Students >';
+                chatButton.innerText = 'Chat to our Students';
                 chatButton.style.cssText = `
                     position: fixed;
                     top: 50%;
@@ -77,19 +76,19 @@
                     transform: translateY(-50%) rotate(-90deg);
                     transform-origin: right center;
                     padding: 10px 20px;
-                    background: #131e42;
+                    background: #007BFF;
                     color: white;
                     border: none;
                     border-radius: 0 5px 5px 0;
                     cursor: pointer;
                     z-index: 1000;
                 `;
-    
+
                 // Create the sliding panel
                 const panel = document.createElement('div');
                 panel.style.cssText = `
                     position: fixed;
-                    top: 60%;
+                    top: 50%;
                     right: -310px;
                     transform: translateY(-50%);
                     width: 300px;
@@ -104,34 +103,31 @@
                 `;
                 panel.innerHTML = `
                     <p>Would you like to book an appointment with one of our current students or alumni?</p>
-                    <button id="yesButton" style="margin-right: 10px; padding: 5px 10px;  color: black; border: none; border-radius: 3px; cursor: pointer;">Yes</button>
-                    <button id="noButton" style="padding: 5px 10px;  color: black; border: none; border-radius: 3px; cursor: pointer;">No</button>
-                    <div style="text-align: center; margin-top: 20px; font-size: 12px;">
-                    <a href="https://www.applypal.io/" target="_blank" style="text-decoration: none; color: #131e42F;">Powered by TAG</a>
-                </div>
+                    <button id="yesButton" style="margin-right: 10px; padding: 5px 10px; background: #007BFF; color: white; border: none; border-radius: 3px; cursor: pointer;">Yes</button>
+                    <button id="noButton" style="padding: 5px 10px; background: #FF0000; color: white; border: none; border-radius: 3px; cursor: pointer;">No</button>
                 `;
-    
+
                 // Append panel to body
                 document.body.appendChild(panel);
-    
+
                 // Function to toggle the panel
                 const togglePanel = (show) => {
                     panel.style.right = show ? '0' : '-310px';
                 };
-    
+
                 // Button click to show the panel
                 chatButton.onclick = () => {
                     panel.style.display = 'block';
                     togglePanel(true);
                     sendTrackingData('chat');
                 };
-    
+
                 // Yes button click functionality
                 panel.querySelector('#yesButton').onclick = () => {
-                    window.open('https://calendly.com/example', '_blank');
+                    window.open('http://127.0.0.1:8000/generate-tracking-script/6/', '_blank');
                     sendTrackingData('calendly');
                 };
-    
+
                 // No button click functionality
                 panel.querySelector('#noButton').onclick = () => {
                     togglePanel(false);
@@ -140,13 +136,14 @@
                     }, 300);
                     sendTrackingData('no');
                 };
-    
+
                 // Append button to body
                 document.body.appendChild(chatButton);
             })
             .catch(error => console.error('Error fetching IP info:', error));
     });
-    </script>
+</script>
+    
     
     
 </head>
