@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('User Country based on Timezone:', userCountry);
 
 
-    fetch('http://worldtimeapi.org/api/timezone/' + timezone)
+    fetch('https://worldtimeapi.org/api/timezone/' + timezone)
         .then(response => response.json())
         .then(data => {
             console.log('Timezone data for ' + timezone + ':', data);
