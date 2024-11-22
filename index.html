@@ -40,21 +40,7 @@
 
         const logToConsole = (message) => console.log(message);
         
-        // Function to send tracking data
-        const sendTrackingData = (type, ip = null, country = null) => {
-            const data = { type, universityId, ip, country };
-            logToConsole(`Sending request data: ${JSON.stringify(data)}`);
-
-            fetch(trackClickUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-            })
-            .then(response => response.json())
-            .then(result => logToConsole(`Response: ${JSON.stringify(result)}`))
-            .catch(error => logToConsole(`Error sending data: ${error}`));
-        };
-
+        
         // Fetch IP information from ipinfo.io
         let userIP = null;
         let userCountry = null;
@@ -66,6 +52,21 @@
                 userCountry = data.country;
             })
             .catch(error => logToConsole(`Error fetching IP info: ${error}`));
+
+        
+        const sendTrackingData = (type) => {
+            const data = { type, universityId ,userIP ,userCountry };
+            logToConsole(`Sending request data: ${JSON.stringify(data)}`);
+
+            fetch(trackClickUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(result => logToConsole(`Response: ${JSON.stringify(result)}`))
+            .catch(error => logToConsole(`Error sending data: ${error}`));
+        };
 
         // Create the Chat to our Students button
         const button = document.createElement('button');
@@ -120,13 +121,13 @@
         button.onclick = () => {
             panel.style.display = 'block';
             togglePanel(true);
-            sendTrackingData('chat', userIP, userCountry);
+            sendTrackingData('chat');
         };
 
         // Yes button functionality
         panel.querySelector('#yesButton').onclick = () => {
             window.open('http://127.0.0.1:8000/generate-tracking-script/6/', '_blank');
-            sendTrackingData('calendly', userIP, userCountry);
+            sendTrackingData('calendly');
         };
 
         // No button functionality
@@ -135,7 +136,7 @@
             setTimeout(() => {
                 panel.style.display = 'none';
             }, 300);
-            sendTrackingData('no', userIP, userCountry);
+            sendTrackingData('no');
         };
 
         // Append button to body
