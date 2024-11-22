@@ -125,6 +125,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const userCountry = timezoneToCountry[timezone] || 'Unknown Country';
     console.log('User Country based on Timezone:', userCountry);
 
+
+    fetch('http://worldtimeapi.org/api/timezone/' + timezone)
+        .then(response => response.json())
+        .then(data => {
+            console.log('Timezone data for ' + timezone + ':', data);
+            // You can process and use data to display the actual time zone info or country
+        })
+        .catch(error => console.error('Error fetching time zone data:', error));
+
     // Send tracking data
     const universityId = '6';
     const trackClickUrl = 'http://127.0.0.1:8000/track-click/';
