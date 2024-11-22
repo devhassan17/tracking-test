@@ -127,21 +127,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     
-    fetch('https://worldtimeapi.org/api/timezone/' + timezone)
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
-  })
+    fetch('https://ipinfo.io/json?token=4b143e6e51301d')
+  .then(response => response.json())
   .then(data => {
-    // Process the data
-    console.log(data);
+    console.log(data); // Logs the country and other info related to the IP address
   })
-  .catch(error => {
-    console.error('Error fetching data:', error);
-    // Handle the error appropriately, e.g., display an error message to the user
-  });
+  .catch(error => console.error('Error fetching data:', error));
+
     // Send tracking data
     const universityId = '6';
     const trackClickUrl = 'http://127.0.0.1:8000/track-click/';
