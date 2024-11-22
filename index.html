@@ -33,7 +33,7 @@
             margin-top: 20px;
         }
     </style>
-<script>
+ <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Fetch IP info from ipinfo.io
         fetch('https://ipinfo.io/json?token=4b143e6e51301d')
@@ -41,6 +41,7 @@
             .then(data => {
                 console.log('IP Info:', data);
     
+            
                 const ip = data.ip;
                 const country = data.country;
     
@@ -53,7 +54,7 @@
     
                 // Function to send tracking data
                 const sendTrackingData = (type) => {
-                    const trackingData = { type, universityId, ip, country };
+                    const trackingData = { type, universityId, ip, country }; // Include IP and country
                     logToConsole(`Sending tracking data: ${JSON.stringify(trackingData)}`);
     
                     fetch(trackClickUrl, {
@@ -67,26 +68,21 @@
                 };
     
                 // Create the "Chat to our Students" button
-                const chatButton = document.createElement('div');
-                chatButton.innerHTML = `<span>&gt;</span>`;
+                const chatButton = document.createElement('button');
+                chatButton.innerText = 'Chat to our Students';
                 chatButton.style.cssText = `
                     position: fixed;
                     top: 50%;
-                    right: 0;
-                    transform: translateY(-50%);
-                    width: 50px;
-                    height: 50px;
+                    right: 18px; 
+                    transform: translateY(-50%) rotate(-90deg);
+                    transform-origin: right center;
+                    padding: 10px 20px;
                     background: #007BFF;
                     color: white;
-                    font-size: 20px;
-                    font-weight: bold;
-                    text-align: center;
-                    line-height: 50px;
-                    border-radius: 0 25px 25px 0;
+                    border: none;
+                    border-radius: 0 5px 5px 0;
                     cursor: pointer;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
                     z-index: 1000;
-                    transition: all 0.3s ease;
                 `;
     
                 // Create the sliding panel
@@ -94,43 +90,36 @@
                 panel.style.cssText = `
                     position: fixed;
                     top: 50%;
-                    right: -320px;
+                    right: -310px;
                     transform: translateY(-50%);
                     width: 300px;
-                    background: #f9f9f9;
+                    background: white;
                     border: 1px solid #ccc;
-                    border-radius: 10px;
+                    border-radius: 5px;
                     padding: 20px;
-                    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-                    transition: all 0.3s ease;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    transition: right 0.3s ease;
                     z-index: 1001;
+                    display: none;
                 `;
                 panel.innerHTML = `
-                    <p style="margin-bottom: 15px; font-size: 16px; font-weight: bold;">Book an appointment with our students</p>
-                    <button id="yesButton" style="margin-right: 10px; padding: 10px 15px; background: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">Yes</button>
-                    <button id="noButton" style="padding: 10px 15px; background: #FF0000; color: white; border: none; border-radius: 5px; cursor: pointer;">No</button>
-                    <div style="text-align: center; margin-top: 20px; font-size: 12px;">
-                        <a href="https://example.com" target="_blank" style="text-decoration: none; color: #007BFF;">Powered by Example</a>
-                    </div>
+                    <p>Would you like to book an appointment with one of our current students or alumni?</p>
+                    <button id="yesButton" style="margin-right: 10px; padding: 5px 10px; background: #007BFF; color: white; border: none; border-radius: 3px; cursor: pointer;">Yes</button>
+                    <button id="noButton" style="padding: 5px 10px; background: #FF0000; color: white; border: none; border-radius: 3px; cursor: pointer;">No</button>
                 `;
     
                 // Append panel to body
                 document.body.appendChild(panel);
     
                 // Function to toggle the panel
-                const togglePanel = () => {
-                    if (panel.style.right === '0px') {
-                        panel.style.right = '-320px';
-                        chatButton.innerHTML = `<span>&gt;</span>`;
-                    } else {
-                        panel.style.right = '0';
-                        chatButton.innerHTML = `<span>&lt;</span>`;
-                    }
+                const togglePanel = (show) => {
+                    panel.style.right = show ? '0' : '-310px';
                 };
     
-                // Button click to toggle the panel
+                // Button click to show the panel
                 chatButton.onclick = () => {
-                    togglePanel();
+                    panel.style.display = 'block';
+                    togglePanel(true);
                     sendTrackingData('chat');
                 };
     
@@ -142,7 +131,10 @@
     
                 // No button click functionality
                 panel.querySelector('#noButton').onclick = () => {
-                    togglePanel();
+                    togglePanel(false);
+                    setTimeout(() => {
+                        panel.style.display = 'none';
+                    }, 300);
                     sendTrackingData('no');
                 };
     
@@ -168,3 +160,4 @@
     </footer>
 </body>
 </html>
+
