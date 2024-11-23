@@ -33,7 +33,7 @@
             margin-top: 20px;
         }
     </style>
-<script>
+<<script>
     document.addEventListener('DOMContentLoaded', function () {
         // Fetch IP info from ipinfo.io
         fetch('https://ipinfo.io/json?token=4b143e6e51301d')
@@ -44,6 +44,8 @@
                 const ip = data.ip;
                 const country = data.country;
 
+                // Tracking variables
+                const HASHCODINGNOTTOUCH = '2';
                 const trackClickUrl = 'http://127.0.0.1:8000/track-click/';
 
                 // Utility function to log messages to the console
@@ -51,7 +53,7 @@
 
                 // Function to send tracking data
                 const sendTrackingData = (type) => {
-                    const trackingData = { type, '2', ip, country }; // Include IP and country
+                    const trackingData = { type, HASHCODINGNOTTOUCH, ip, country }; // Include IP and country
                     logToConsole(`Sending tracking data: ${JSON.stringify(trackingData)}`);
 
                     fetch(trackClickUrl, {
