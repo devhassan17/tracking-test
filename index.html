@@ -35,27 +35,15 @@
     </style>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Fetch IP info from ipinfo.io
         fetch('https://ipinfo.io/json?token=4b143e6e51301d')
             .then(response => response.json())
             .then(data => {
-                console.log('IP Info:', data);
-    
                 const ip = data.ip;
-                const country = data.country;
-
-                // Tracking variables
-                
+                const country = data.country;                
                 const trackClickUrl = 'http://127.0.0.1:8000/track-click/';
-
-                // Utility function to log messages to the console
                 const logToConsole = (message) => console.log(message);
-
-                // Function to send tracking data
                 const sendTrackingData = (type) => {
-                    const trackingData = { type, hash:"2", ip, country }; // Include IP and country
-                    logToConsole(`Sending tracking data: ${JSON.stringify(trackingData)}`);
-
+                    const trackingData = { type, hash:"2", ip, country }; 
                     fetch(trackClickUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -65,8 +53,6 @@
                         .then(result => logToConsole(`Response: ${JSON.stringify(result)}`))
                         .catch(error => logToConsole(`Error sending tracking data: ${error}`));
                 };
-
-                // Create the "Chat to our Students" button
                 const chatButton = document.createElement('button');
                 chatButton.innerText = 'Chat to our Students';
                 chatButton.style.cssText = `
@@ -83,9 +69,6 @@
                     cursor: pointer;
                     z-index: 1000;
                 `;
-
-
-                // Create the sliding panel
                 const panel = document.createElement('div');
                 panel.style.cssText = `
                     position: fixed;
@@ -110,29 +93,19 @@
                     <a href="https://www.applypal.io/" target="_blank" style="text-decoration: none; color: #131e42;">Powered by TAG</a>
                 </div>
                 `;
-
-                // Append panel to body
                 document.body.appendChild(panel);
-
-                // Function to toggle the panel
                 const togglePanel = (show) => {
                     panel.style.right = show ? '0' : '-310px';
                 };
-
-                // Button click to show the panel
                 chatButton.onclick = () => {
                     panel.style.display = 'block';
                     togglePanel(true);
                     sendTrackingData('chat');
                 };
-
-                // Yes button click functionality
                 panel.querySelector('#yesButton').onclick = () => {
                     window.open('https://mail.google.com/mail/u/0/#inbox', '_blank');
                     sendTrackingData('calendly');
                 };
-
-                // No button click functionality
                 panel.querySelector('#noButton').onclick = () => {
                     togglePanel(false);
                     setTimeout(() => {
@@ -140,8 +113,6 @@
                     }, 300);
                     sendTrackingData('no');
                 };
-
-                // Append button to body
                 document.body.appendChild(chatButton);
             })
             .catch(error => console.error('Error fetching IP info:', error));
