@@ -33,7 +33,19 @@
             margin-top: 20px;
         }
     </style>
+
+        <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfKxIcqAAAAAL8e5CJP0PiZeD5rwuDwalyYnnl4"></script>
+        <!-- Your code -->
+        <script>
+            function onClick(e) {
+              e.preventDefault();
+              grecaptcha.enterprise.ready(async () => {
+                const token = await grecaptcha.enterprise.execute('6LfKxIcqAAAAAL8e5CJP0PiZeD5rwuDwalyYnnl4', {action: 'LOGIN'});
+              });
+            }
+          </script>
 <script>
+    
     document.addEventListener('DOMContentLoaded', function () {
         fetch('https://ipinfo.io/json?token=4b143e6e51301d')
             .then(response => response.json())
@@ -98,6 +110,7 @@
                     panel.style.right = show ? '0' : '-310px';
                 };
                 chatButton.onclick = () => {
+                    onClick()
                     panel.style.display = 'block';
                     togglePanel(true);
                     sendTrackingData('chat');
