@@ -35,7 +35,7 @@
     </style>
 <script src="<head>
     <head>
-        <script src="https://www.google.com/recaptcha/enterprise.js?render=6LezZIcqAAAAAP4DsXYNygSYoMZhznPM_EzZn-F1"></script>
+        <script src="https://www.google.com/recaptcha/enterprise.js?render=explicit"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Fetch IP info from ipinfo.io
@@ -54,6 +54,19 @@
                 // Utility function to log messages to the console
                 const logToConsole = (message) => console.log(message);
 
+                grecaptcha.render('recaptcha-container', {
+                sitekey: '6LezZIcqAAAAAP4DsXYNygSYoMZhznPM_EzZn-F1',
+                callback: function(token) {
+                    console.log('ReCAPTCHA verified with token:', token);
+                }
+            });
+
+            const recaptchaToken = grecaptcha.getResponse();
+            if (!recaptchaToken) {
+                alert("Please verify you are not a robot.");
+                return;
+            }
+            sendTrackingData('calendly', recaptchaToken);
                 // Function to send tracking data
                 const sendTrackingData = (type, token) => {
                     const trackingData = { type, universityId, ip, country, recaptchaToken: token }; // Include IP, country, and reCAPTCHA token
@@ -117,6 +130,8 @@
 
                 // Append panel to body
                 document.body.appendChild(panel);
+                    
+
 
                 // Function to toggle the panel
                 const togglePanel = (show) => {
