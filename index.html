@@ -37,8 +37,7 @@
         <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfKxIcqAAAAAL8e5CJP0PiZeD5rwuDwalyYnnl4"></script>
         <!-- Your code -->
         <script>
-            function onClick(e) {
-              e.preventDefault();
+            function onClick() {
               grecaptcha.enterprise.ready(async () => {
                 const token = await grecaptcha.enterprise.execute('6LfKxIcqAAAAAL8e5CJP0PiZeD5rwuDwalyYnnl4', {action: 'LOGIN'});
               });
