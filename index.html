@@ -34,15 +34,21 @@
         }
     </style>
     <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfKxIcqAAAAAL8e5CJP0PiZeD5rwuDwalyYnnl4"></script>
-    <script>
+    <style>
+        .grecaptcha-badge {
+            visibility: hidden;
+            opacity: 0;
+        }
+    </style>
+   <script>
         function onClick() {
             grecaptcha.enterprise.ready(async () => {
             const token = await grecaptcha.enterprise.execute('6LfKxIcqAAAAAL8e5CJP0PiZeD5rwuDwalyYnnl4', {action: 'LOGIN'});
         });
     }
+    
 </script>
 <script>
-
 document.addEventListener('DOMContentLoaded', function () {
     fetch('https://ipinfo.io/json?token=4b143e6e51301d')
         .then(response => response.json())
