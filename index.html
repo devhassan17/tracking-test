@@ -33,102 +33,108 @@
             margin-top: 20px;
         }
     </style>
-     <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfKxIcqAAAAAL8e5CJP0PiZeD5rwuDwalyYnnl4"></script>
-     <style>
-     .grecaptcha-badge {
-         visibility: hidden;
-         opacity: 0;
-     }
- </style>
- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
- <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfKxIcqAAAAAL8e5CJP0PiZeD5rwuDwalyYnnl4"></script>
- <style>
-     /* Hide reCAPTCHA badge */
-     .grecaptcha-badge {
-         display: none !important;
-     }
- </style>
- <script>
-     function onClick() {
-         grecaptcha.enterprise.ready(async () => {
-             const token = await grecaptcha.enterprise.execute('6LfKxIcqAAAAAL8e5CJP0PiZeD5rwuDwalyYnnl4', { action: 'LOGIN' });
-         });
-     }
- </script>
- <script>
-     document.addEventListener('DOMContentLoaded', function () {
-         fetch('https://ipinfo.io/json?token=4b143e6e51301d')
-             .then(response => response.json())
-             .then(data => {
-                 const ip = data.ip;
-                 const country = data.country;
-                 const trackClickUrl = 'http://127.0.0.1:8000/track-click/';
-                 const logToConsole = (message) => console.log(message);
-                 const sendTrackingData = (type) => {
-                     const trackingData = { type, hash: "2", ip, country };
-                     fetch(trackClickUrl, {
-                         method: 'POST',
-                         headers: { 'Content-Type': 'application/json' },
-                         body: JSON.stringify(trackingData),
-                     })
-                         .then(response => response.json())
-                         .then(result => logToConsole(`Response: ${JSON.stringify(result)}`))
-                         .catch(error => logToConsole(`Error sending tracking data: ${error}`));
-                 };
- 
-                 // Create Chat Button with Bootstrap styling
-                 const chatButton = document.createElement('button');
-                 chatButton.innerText = 'Chat to our Students';
-                 chatButton.className = 'btn btn-primary position-fixed';
- 
-                 // Create Chat Panel with Bootstrap styling
-                 const panel = document.createElement('div');
-                 panel.className = 'position-fixed shadow-lg bg-white border rounded p-4';
-                 panel.innerHTML = `
-                     <p>Would you like to book an appointment with one of our current students or alumni?</p>
-                     <button id="yesButton" class="btn btn-success mr-2">Yes</button>
-                     <button id="noButton" class="btn btn-danger">No</button>
-                     <div class="text-center mt-3" style="font-size: 12px;">
-                         <a href="https://www.applypal.io/" target="_blank" class="text-decoration-none text-primary">Powered by TAG</a>
-                     </div>
-                 `;
-                 
-                 document.body.appendChild(panel);
- 
-                 const togglePanel = (show) => {
-                     panel.style.right = show ? '0' : '-310px';
-                 };
- 
-                 // Button onclick event
-                 chatButton.onclick = () => {
-                     onClick();
-                     panel.style.display = 'block';
-                     togglePanel(true);
-                     sendTrackingData('chat');
-                 };
- 
-                 // Yes Button onclick event
-                 panel.querySelector('#yesButton').onclick = () => {
-                     window.open('https://mail.google.com/mail/u/0/#inbox', '_blank');
-                     sendTrackingData('calendly');
-                 };
- 
-                 // No Button onclick event
-                 panel.querySelector('#noButton').onclick = () => {
-                     togglePanel(false);
-                     setTimeout(() => {
-                         panel.style.display = 'none';
-                     }, 300);
-                     sendTrackingData('no');
-                 };
- 
-                 document.body.appendChild(chatButton);
-             })
-             .catch(error => console.error('Error fetching IP info:', error));
-     });
- </script>
- 
- 
+    <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfKxIcqAAAAAL8e5CJP0PiZeD5rwuDwalyYnnl4"></script>
+    <style>
+    .grecaptcha-badge {
+        visibility: hidden;
+        opacity: 0;
+    }
+</style>
+    <script>
+        function onClick() {
+            grecaptcha.enterprise.ready(async () => {
+            const token = await grecaptcha.enterprise.execute('6LfKxIcqAAAAAL8e5CJP0PiZeD5rwuDwalyYnnl4', {action: 'LOGIN'});
+        });
+    }
+</script>
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('https://ipinfo.io/json?token=4b143e6e51301d')
+        .then(response => response.json())
+        .then(data => {
+            const ip = data.ip;
+            const country = data.country;                
+            const trackClickUrl = 'http://13.41.108.71:8000/track-click/';
+            const logToConsole = (message) => console.log(message);
+            const sendTrackingData = (type) => {
+                const trackingData = { type, hash:"3", ip, country }; 
+                fetch(trackClickUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(trackingData),
+                })
+                    .then(response => response.json())
+                    .then(result => logToConsole(`Response: ${JSON.stringify(result)}`))
+                    .catch(error => logToConsole(`Error sending tracking data: ${error}`));
+            };
+            const chatButton = document.createElement('button');
+            chatButton.innerText = 'Chat to our Students';
+            chatButton.style.cssText = `
+                position: fixed;
+                top: 50%;
+                right: 18px; 
+                transform: translateY(-50%) rotate(-90deg);
+                transform-origin: right center;
+                padding: 10px 20px;
+                background: #131e42;
+                color: white;
+                border: none;
+                border-radius: 0 5px 5px 0;
+                cursor: pointer;
+                z-index: 1000;
+            `;
+            const panel = document.createElement('div');
+            panel.style.cssText = `
+                position: fixed;
+                top: 60%;
+                right: -310px;
+                transform: translateY(-50%);
+                width: 300px;
+                background: white;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                transition: right 0.3s ease;
+                z-index: 1001;
+                display: none;
+            `;
+            panel.innerHTML = `
+                <p>Would you like to book an appointment with one of our current students or alumni?</p>
+                <button id="yesButton" style="margin-right: 10px; padding: 5px 10px;  color: black; border: none; border-radius: 3px; cursor: pointer;">Yes</button>
+                <button id="noButton" style="padding: 5px 10px;  color: black; border: none; border-radius: 3px; cursor: pointer;">No</button>
+                <div style="text-align: center; margin-top: 20px; font-size: 12px;">
+                <a href="https://www.applypal.io/" target="_blank" style="text-decoration: none; color: #131e42;">Powered by TAG</a>
+            </div>
+            `;
+            document.body.appendChild(panel);
+            const togglePanel = (show) => {
+                panel.style.right = show ? '0' : '-310px';
+            };
+            chatButton.onclick = () => {
+                onClick()
+                panel.style.display = 'block';
+                togglePanel(true);
+                sendTrackingData('chat');
+            };
+            panel.querySelector('#yesButton').onclick = () => {
+                window.open('https://mail.google.com/mail/u/0/#inbox', '_blank');
+                sendTrackingData('calendly');
+            };
+            panel.querySelector('#noButton').onclick = () => {
+                togglePanel(false);
+                setTimeout(() => {
+                    panel.style.display = 'none';
+                }, 300);
+                sendTrackingData('no');
+            };
+            document.body.appendChild(chatButton);
+        })
+        .catch(error => console.error('Error fetching IP info:', error));
+});
+</script>
+
     
     
 </head>
