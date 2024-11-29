@@ -55,10 +55,10 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             const ip = data.ip;
             const country = data.country;                
-            const trackClickUrl = 'http://13.41.108.71:8000/track-click/';
+            const trackClickUrl = 'https://signup.applypal.io/track-click/';
             const logToConsole = (message) => console.log(message);
             const sendTrackingData = (type) => {
-                const trackingData = { type, hash:"3", ip, country }; 
+                const trackingData = { type, hash:"2", ip, country }; 
                 fetch(trackClickUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 sendTrackingData('chat');
             };
             panel.querySelector('#yesButton').onclick = () => {
-                window.open('https://mail.google.com/mail/u/0/#inbox', '_blank');
+                window.open('https://calendly.com/example', '_blank');
                 sendTrackingData('calendly');
             };
             panel.querySelector('#noButton').onclick = () => {
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-    
+
     
 </head>
 <body>
